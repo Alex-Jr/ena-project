@@ -39,7 +39,9 @@ for player_id in players_ids:
 
     names.append(name)
     medals.append(medal_count)
-    time.sleep(10 + random.random() * 5)
+    timeout = 20 + random.random() * 10
+    print('Fetched {} - Sleeping for {:1f} seconds'.format(name, timeout))
+    time.sleep(timeout)
 
 # offline tests
 # content = []
