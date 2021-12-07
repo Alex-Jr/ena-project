@@ -26,13 +26,14 @@ headers = {
 }
 
 for player_id in players_ids:
-    url = base_url + player_id.replace('\n', '')
+    parsed_player_id = player_id.replace('\n', '')
+    url = base_url + parsed_player_id
     response = requests.get(url=url, headers=headers)
-   
+
     if(response.status_code == 200):   
         parsed_response = json.loads(response.content)
         player_data.append({
-            'id': player_id,
+            'id': parsed_player_id,
             'name': parsed_response['citizen']["name"],
             'sky_hero_medals': parsed_response['achievements'][6]['count'],
             'air_rank_number': parsed_response['military']['militaryData']['aircraft']['rankNumber'],
@@ -41,7 +42,7 @@ for player_id in players_ids:
         })
     else:
         player_data.append({
-            'id': player_id,
+            'id': parsed_player_id,
             'name': 'error',
             'sky_hero_medals': '0',
             'air_rank_number': '0',
@@ -49,8 +50,8 @@ for player_id in players_ids:
             'air_rank_points': '0'
         })
     
-    timeout = 20 + random.random() * 10
-    print('Fetched id: {} - Sleeping for {:1f} seconds'.format(player_id, timeout))
+    timeout = 17 + random.random() * 10
+    print('Fetched id: {} - Sleeping for {:1f} seconds'.format(parsed_player_id, timeout))
     time.sleep(timeout)
 
 with open('generate-sky-hero-output.csv', 'w') as file:
